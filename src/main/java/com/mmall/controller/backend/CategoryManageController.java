@@ -52,9 +52,7 @@ public class CategoryManageController {
         }
         //校验是否是管理员
         if (iUserService.checkAdminRole(user).isSuccess()) {
-
-            iCategoryService.updateCategoryName(categoryName, categoryId);
-
+            return iCategoryService.updateCategoryName(categoryName, categoryId);
         }
         return ServerResponse.createByErrorMessage("设置失败");
 
