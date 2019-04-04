@@ -16,7 +16,7 @@ import java.util.UUID;
 public class FileServiceImpl implements IFileService {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
 
     @Override
@@ -42,7 +42,6 @@ public class FileServiceImpl implements IFileService {
 
             //删除upload下面的文件
             targetFile.delete();
-
 
         } catch (IOException e) {
             logger.error("上传文件异常", e);

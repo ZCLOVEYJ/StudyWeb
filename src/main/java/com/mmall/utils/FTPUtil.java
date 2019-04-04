@@ -28,7 +28,7 @@ public class FTPUtil {
         this.pwd = pwd;
     }
 
-    public static boolean uploadFile(List<File> fileList) {
+    public static boolean  uploadFile(List<File> fileList) {
         FTPUtil ftpUtil = new FTPUtil(ftpIp, 21, ftpUser, ftpPassword);
         logger.info("开始连接FTP服务器");
         boolean result = ftpUtil.uploadFile("img", fileList);

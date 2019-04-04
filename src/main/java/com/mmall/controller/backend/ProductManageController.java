@@ -11,12 +11,10 @@ import com.mmall.service.IFileService;
 import com.mmall.service.IProductService;
 import com.mmall.service.IUserService;
 import com.mmall.utils.PropertiesUtils;
-import net.sf.jsqlparser.schema.MultiPartName;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +38,7 @@ public class ProductManageController {
     private IFileService iFileService;
 
 
-    @RequestMapping(value = "save.do", method = RequestMethod.POST)
+    @RequestMapping(value = "save.do")
     @ResponseBody
     public ServerResponse productSave(HttpSession session, Product product) {
 
@@ -57,7 +55,7 @@ public class ProductManageController {
     }
 
 
-    @RequestMapping(value = "set_sale_status.do", method = RequestMethod.POST)
+    @RequestMapping(value = "set_sale_status.do")
     @ResponseBody
     public ServerResponse setSaleStatus(HttpSession session, Integer productId, Integer status) {
 
@@ -74,7 +72,7 @@ public class ProductManageController {
 
     }
 
-    @RequestMapping(value = "detail.do", method = RequestMethod.POST)
+    @RequestMapping(value = "detail.do")
     @ResponseBody
     public ServerResponse getProductDetails(HttpSession session, Integer productId) {
 
@@ -91,7 +89,7 @@ public class ProductManageController {
 
     }
 
-    @RequestMapping(value = "list.do", method = RequestMethod.POST)
+    @RequestMapping(value = "list.do")
     @ResponseBody
     public ServerResponse getList(HttpSession session,
                                   @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
@@ -109,7 +107,7 @@ public class ProductManageController {
     }
 
 
-    @RequestMapping(value = "search.do", method = RequestMethod.POST)
+    @RequestMapping(value = "search.do")
     @ResponseBody
     public ServerResponse productSearch(HttpSession session,
                                         String name,
@@ -128,7 +126,7 @@ public class ProductManageController {
         return ServerResponse.createByErrorMessage("无权限操作");
     }
 
-    @RequestMapping(value = "upload.do")
+    @RequestMapping("upload.do")
     @ResponseBody
     public ServerResponse upload(HttpSession session, @RequestParam(value = "upload_file", required = false) MultipartFile file, HttpServletRequest request) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -143,18 +141,19 @@ public class ProductManageController {
             String url = PropertiesUtils.getProperty("ftp.server.http.prefix") + targetFileName;
 
             Map fileMap = Maps.newHashMap();
-            fileMap.put("url", url);
             fileMap.put("uri", targetFileName);
+            fileMap.put("url", url);
             return ServerResponse.createBySuccess(fileMap);
         }
         return ServerResponse.createByErrorMessage("无权限操作");
 
     }
 
-    @RequestMapping(value = "rich_text_img_upload.do")
+    @RequestMapping("rich_text_img_upload.do")
     @ResponseBody
     public Map richTextImgUpload(HttpSession session,
                                  @RequestParam(value = "upload_file", required = false) MultipartFile file,
+
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
         Map resultMap = Maps.newHashMap();
@@ -170,7 +169,7 @@ public class ProductManageController {
             //这个文件夹会创建在webapp/ 下
             String path = request.getSession().getServletContext().getRealPath("upload");
             String targetFileName = iFileService.upload(file, path);
-            if (StringUtils.isNotBlank(targetFileName)) {
+            if (StringUtils.isBlank(targetFileName)) {
                 resultMap.put("success", false);
                 resultMap.put("msg", "上传失败");
                 return resultMap;

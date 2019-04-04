@@ -20,7 +20,7 @@
     </filter>
     <filter-mapping>
         <filter-name>characterEncodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/StudyWeb/*</url-pattern>
     </filter-mapping>
 
 
@@ -43,8 +43,6 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
-
 
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
